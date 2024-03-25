@@ -84,6 +84,12 @@ subctl verify --context aces-1 --tocontext aces-2 --only service-discovery,conne
 - [-] Submariner
 - [ ] AWS EBS CSI for volumes
 
+## Create Access for users
 
+To create one namespace per partner and give them access to both clusters run the `create-users.sh` script.
+Partners listed in the `./partners` file.
 
+All partners config with both cluster credentials in it, named `<partner name>-kubeconfig.yaml` should be available in the current directory.
+
+To give more rights to one partner just change its Role assignment to a more permissive one in both clusters.
 

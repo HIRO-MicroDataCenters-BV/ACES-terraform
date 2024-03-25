@@ -54,7 +54,7 @@ kubectl apply -f $TMP_DIR/csr_$USER_NAME.yaml
 kubectl get csr ${USER_NAME}-csr
 kubectl certificate approve ${USER_NAME}-csr
 
-kubectl create namespace $GROUP_NAME
+kubectl create namespace $GROUP_NAME || true
 
 cat > $TMP_DIR/rbac.yaml <<EOF
 apiVersion: rbac.authorization.k8s.io/v1
@@ -123,7 +123,7 @@ contexts:
 current-context: ${USER_NAME}@${CLUSTER_NAME}
 EOF
 
-kubectl config set-credentials $USER_NAME --kubeconfig $KUBCONFIG_FILE --client-key $USER_NAME.key --embed-certs=true
+kubectl config set-credentials $USER_NAME-$CLUSTER_NAME --kubeconfig $KUBCONFIG_FILE --client-key $USER_NAME.key --embed-certs=true
 kubectl config set-context --kubeconfig $KUBCONFIG_FILE --current --namespace=$GROUP_NAME
 
 echo ======================================

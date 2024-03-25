@@ -9,6 +9,6 @@ do
     ../create-kubernetes-user.sh $user
 
     export KUBECONFIG=./$user-aces-1-kubeconfig.yaml:./$user-aces-2-kubeconfig.yaml
-    kubectl config view --flatten > $user-kubeconfig.yaml
+    kubectl config view --flatten > ../$user-kubeconfig.yaml
 done
 echo Done!

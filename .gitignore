@@ -5,3 +5,4 @@ terraform.tfstate.backup
 aces-1.conf
 aces-2.conf
 broker-info.subm
+*-kubeconfig.yaml
