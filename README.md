@@ -32,7 +32,27 @@ kubectl get nodes
 
 ## Post install
 
+### Add /var partition
+
+> NOTE: This might be move to a deamonSet added by terraform...
+
+The chosen AWS instances do not use the disk by default so we need to create a partition and to mount /var on it (this is where Kubernetes put its data)
+
+Do do so, on each node check that the large unmounted disk is the `nvme1n1`, copy the script on the node and run:
+```sh
+sudo bash ./create-var-partition.sh
+```
+
+### Remove taint from the master
+
+For each cluster allow users to use the master resources with:
+```sh
+kubectl taint node master node-role.kubernetes.io/control-plane:NoSchedule-
+```
+
 > NOTE: This might be move to terraform with something like the Helm provider...
+
+### CNI
 
 Install The Flannel CNI on both clusters
 ```sh
@@ -48,6 +68,8 @@ kubectl create ns kube-flannel
 kubectl label --overwrite ns kube-flannel pod-security.kubernetes.io/enforce=privileged
 helm install flannel --set podCidr="10.0.0.0/16" --namespace kube-flannel flannel/flannel
 ```
+
+### Submariner
 
 Now you can install submariner CLI `subctl` with:
 ```sh
@@ -77,12 +99,14 @@ subctl verify --context aces-1 --tocontext aces-2 --only service-discovery,conne
 > FIXME: The connectivity between the cluster is not working yet. Might be due
 > to some firewall rules. To be continued...
 
+
 ## Features
 
 - [X] Two Kubernetes 1.29 clusters
 - [X] Flanel CNI
-- [-] Submariner
-- [ ] AWS EBS CSI for volumes
+- [X] Submariner
+- [X] AWS EBS CSI for volumes (Not documented!)
+
 
 ## Create Access for users
 
