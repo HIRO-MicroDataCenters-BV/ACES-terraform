@@ -100,12 +100,39 @@ subctl verify --context aces-1 --tocontext aces-2 --only service-discovery,conne
 > to some firewall rules. To be continued...
 
 
+### AWS EBS CSI for volumes
+  1. Get AWS EBS CSI [driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md)
+  2. Edit values.yaml to add default `storageClass`
+       
+    ```yaml 
+    apiVersion: storage.k8s.io/v1
+    kind: StorageClass
+    metadata:
+    name: gp2
+    annotations:
+        storageclass.kubernetes.io/is-default-class: "true"
+    provisioner: ebs.csi.aws.com
+    parameters:
+    type: gp2
+    reclaimPolicy: Delete
+    allowVolumeExpansion: true
+    volumeBindingMode: WaitForFirstConsumer
+    allowedTopologies:
+    - matchLabelExpressions:
+    - key: topology.ebs.csi.aws.com/zone
+        values:
+        - eu-west-3c
+    ```
+
+  3. Install the driver with an updated `values.yaml`
+
+> TODO: Add the EBS CSI driver installation to the terraform script
 ## Features
 
 - [X] Two Kubernetes 1.29 clusters
 - [X] Flanel CNI
 - [X] Submariner
-- [X] AWS EBS CSI for volumes (Not documented!)
+- [X] AWS EBS CSI for volumes 
 
 
 ## Create Access for users
