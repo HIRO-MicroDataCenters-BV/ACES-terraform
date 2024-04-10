@@ -99,7 +99,7 @@ resource "kubernetes_daemonset" "node_configurator" {
           }
 
           command = ["nsenter"]
-          args    = ["--target", "1", "--mount", "--", "bash", "/create-var-partition.sh"]
+          args    = ["--target", "1", "--mount", "--", "bash", "/scripts/create-var-partition.sh"]
         }
 
         volume {
