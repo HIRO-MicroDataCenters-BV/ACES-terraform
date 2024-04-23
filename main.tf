@@ -56,4 +56,10 @@ resource "aws_security_group" "submariner" {
     to_port   = 4800
     cidr_blocks = ["172.31.0.0/16"]
   }
+  ingress {
+    protocol  = "tcp"
+    from_port = 30000
+    to_port   = 30100
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
