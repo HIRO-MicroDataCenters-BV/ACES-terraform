@@ -26,11 +26,20 @@ terraform apply
 ```
 The Kubernetes clusters are set and can be accessed with:
 ```sh
-export KUBCONFIG=./aces-1.yaml
+export KUBCONFIG=./aces-1.conf
 kubectl get nodes
 ```
 
 ## Post install
+
+### Rename and merge KUBECONFIG
+
+In both `aces-*.conf` rename context, user and cluster the aces-1 or aces-2
+depending on the cluster.
+```
+export KUBECONFIG=./aces-1.conf:./aces-2.conf
+kubectl config view --flatten > kubeconfig.yaml
+```
 
 ### Add /var partition
 
@@ -42,15 +51,6 @@ Do do so, on each node check that the large unmounted disk is the `nvme1n1`, cop
 ```sh
 sudo bash ./create-var-partition.sh
 ```
-
-### Remove taint from the master
-
-For each cluster allow users to use the master resources with:
-```sh
-kubectl taint node master node-role.kubernetes.io/control-plane:NoSchedule-
-```
-
-> NOTE: This might be move to terraform with something like the Helm provider...
 
 ### CNI
 
@@ -92,7 +92,7 @@ subctl join --kubeconfig aces-2.conf broker-info.subm --clusterid aces-2
 
 Now that the installation is done you can verify the connectivity with:
 ```sh
-export KUBECONFIG=aces-1.yaml:aces-2.yaml
+export KUBECONFIG=aces-1.conf:aces-2.conf
 subctl verify --context aces-1 --tocontext aces-2 --only service-discovery,connectivity --verbose
 ```
 
@@ -103,8 +103,7 @@ subctl verify --context aces-1 --tocontext aces-2 --only service-discovery,conne
 ### AWS EBS CSI for volumes
   1. Get AWS EBS CSI [driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md)
   2. Edit values.yaml to add default `storageClass`
-       
-    ```yaml 
+    ```yaml
     apiVersion: storage.k8s.io/v1
     kind: StorageClass
     metadata:
