@@ -21,7 +21,7 @@ module "cluster_1" {
   cluster_name           = "aces-1"
   master_instance_type   = local.instance_type
   worker_instance_type   = local.instance_type
-  num_workers            = 1
+  num_workers            = 2
   pod_network_cidr_block = "10.42.0.0/16"
   service_cidr_block     = "10.43.0.0/16"
 }
@@ -33,7 +33,7 @@ module "cluster_2" {
   cluster_name           = "aces-2"
   master_instance_type   = local.instance_type
   worker_instance_type   = local.instance_type
-  num_workers            = 1
+  num_workers            = 2
   pod_network_cidr_block = "10.0.0.0/16"
   service_cidr_block     = "10.1.0.0/16"
 }

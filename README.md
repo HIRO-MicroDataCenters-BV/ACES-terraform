@@ -43,12 +43,7 @@ Do do so, on each node check that the large unmounted disk is the `nvme1n1`, cop
 sudo bash ./create-var-partition.sh
 ```
 
-### Remove taint from the master
 
-For each cluster allow users to use the master resources with:
-```sh
-kubectl taint node master node-role.kubernetes.io/control-plane:NoSchedule-
-```
 
 > NOTE: This might be move to terraform with something like the Helm provider...
 
