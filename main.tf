@@ -11,7 +11,7 @@ provider "aws" {
 }
 
 locals {
-  instance_type = "i4i.large"
+  instance_type = "t3.xlarge"
   ami           = "ami-0cf8088cd49029d99"
 }
 

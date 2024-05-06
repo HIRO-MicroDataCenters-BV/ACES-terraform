@@ -32,6 +32,10 @@ kubectl get nodes
 
 ## Post install
 
+### Manually attach Submariner security group to nodes
+
+Submariner security group is not attached automatically to nodes. Do it manually via AWS console or AWS CLI.
+
 ### Rename and merge KUBECONFIG
 
 In both `aces-*.conf` rename context, user and cluster the aces-1 or aces-2
@@ -39,17 +43,6 @@ depending on the cluster.
 ```
 export KUBECONFIG=./aces-1.conf:./aces-2.conf
 kubectl config view --flatten > kubeconfig.yaml
-```
-
-### Add /var partition
-
-> NOTE: This might be move to a deamonSet added by terraform...
-
-The chosen AWS instances do not use the disk by default so we need to create a partition and to mount /var on it (this is where Kubernetes put its data)
-
-Do do so, on each node check that the large unmounted disk is the `nvme1n1`, copy the script on the node and run:
-```sh
-sudo bash ./create-var-partition.sh
 ```
 
 ### CNI
@@ -95,9 +88,6 @@ Now that the installation is done you can verify the connectivity with:
 export KUBECONFIG=aces-1.conf:aces-2.conf
 subctl verify --context aces-1 --tocontext aces-2 --only service-discovery,connectivity --verbose
 ```
-
-> FIXME: The connectivity between the cluster is not working yet. Might be due
-> to some firewall rules. To be continued...
 
 
 ### AWS EBS CSI for volumes
