@@ -4,6 +4,8 @@ This config creates two clusters in the same on AWS on top EC2 instances using `
 
 The kubeconfig files for the individual clusters will be saved in the current working directory with a name corresponding to the cluster they belong to.
 
+Keep in mind that the tf script is only for initial setup of the cluster. Changing cluster configuration (like adding more nodes) should be done manually since tf will just destroy and recreate EC2 instances.
+
 ## Requirements
 
 This need to be installed locally:
