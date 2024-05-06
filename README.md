@@ -32,6 +32,10 @@ kubectl get nodes
 
 ## Post install
 
+### Extend instance root storage
+
+By default T3 instances have only 10GB of storage. Extend it at least to 150GB before running workloads on cluster.
+
 ### Manually attach Submariner security group to nodes
 
 Submariner security group is not attached automatically to nodes. Do it manually via AWS console or AWS CLI.
